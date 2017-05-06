@@ -1,0 +1,20 @@
+sudo: required
+dist: trusty
+before_install:
+- sudo apt-get -qq update && sudo apt-get install -y --no-install-recommends texlive-fonts-recommended
+  texlive-latex-extra texlive-fonts-extra dvipng texlive-latex-recommended
+script:
+- mkdir _build
+- pdflatex -interaction=nonstopmode -halt-on-error -output-directory _build tex/TheBlockchainManifesto.tex
+- bibtex _build/TheBlockchainManifesto
+- pdflatex -interaction=nonstopmode -halt-on-error -output-directory _build tex/TheBlockchainManifesto.tex
+- pdflatex -interaction=nonstopmode -halt-on-error -output-directory _build tex/TheBlockchainManifesto.tex
+deploy:
+  provider: releases
+  api_key:
+    secure: QPP/+y8QU+aJVoc8017CgpLp/hGVgFghr9LE+KPZ9kq0Z00trbdJbWUj5ZDmSP/zodpcd8qH2Nio8ZVJ1Pw7DpRUN6PRWa5UJw4xtG+Yymd/+hsjSYmdmCKWtAeAWmTCZyiPP5sAr1boF3h0k1dKh+cfrDwnqH9dNHAMAiO0AHORXAWGIE/ASbKhJzG59wgxLKkIH//UAwmz2e2fbhHFIXGWQAwxR1NqiwKxYPvKQOtfgDZtY/X6IjO7MF1NpHuJ9W9CTQCas3ErJ5GmbreDYT2zYxLLgyl911mVq1RCz71F7Z08b0xP5DtMl9aHkl/oRTqyOwWDtWCsRx2GzD/xPoW9zjI/8WicJkssDzn7NlQ4XtCJl2VuRxuMc1qzzuaJbeLYfO3yLBHFeR5G8znhdBkfeKwR2JRZbq9ikzlI1/+oBTLxtmrJ1ZAnMu1l0KSgZy8XtFTbPjJeG3PisV7JCczY0VAIrovARMQGuy7clwn4D2v57Ory5uSDjj0aonwTQg6XkrweL4kJulT5PvKL9CjBmgquYou5kjiCd6HUYchegIFliNmRAVB0QBiNzWIKo5PAJe9TlbSWfxyJpT0V+lhTU8ze75ILnFNUNDjG7oApXT8SRUX+Sz3dKkLknvefqpFcmhBXJERsH1y6KmuEc9cgF/3nfwyoN1guftg/zLY=
+  file:
+  - _build/TheBlockchainManifesto.pdf
+  skip_cleanup: true
+  on:
+    tags: true
